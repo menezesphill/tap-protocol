@@ -29,7 +29,8 @@ contract VestingVault is Ownable {
     
     mapping (address => Grant) private tokenGrants;
 
-    uint256 public totalVestingCount;
+    // EDIT1: totalVestingCount is not used.
+    // uint256 public totalVestingCount;
 
     constructor(ERC20 _token) public {
         require(address(_token) != address(0));
@@ -123,7 +124,9 @@ contract VestingVault is Ownable {
     /// @notice Calculate the vested and unclaimed months and tokens available for `_grantId` to claim
     /// Due to rounding errors once grant duration is reached, returns the entire left grant amount
     /// Returns (0, 0) if cliff has not been reached
-    function calculateGrantClaim(address _recipient) private view returns (uint16, uint256) {
+    
+    // EDIT2: Changed calculateGrantClaim from private to public.
+    function calculateGrantClaim(address _recipient) public view returns (uint16, uint256) {
         Grant storage tokenGrant = tokenGrants[_recipient];
 
         require(tokenGrant.totalClaimed < tokenGrant.amount, "Grant fully claimed");
